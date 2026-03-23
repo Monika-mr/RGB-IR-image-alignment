@@ -46,4 +46,6 @@ The alignment is performed in three stages:
 
 ## Sample Alignment Result
 
-(Add overlay image here)
+![RGB IR Alignment](alignment_overlay.png)
+
+
