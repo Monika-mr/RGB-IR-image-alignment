@@ -46,6 +46,6 @@ The alignment is performed in three stages:
 
 ## Sample Alignment Result
 
-![RGB IR Alignment](frame_00050_jpg.rf.3e2083bb0cedbf20d8e9e3cd5ce37617_blend)
+![RGB IR Alignment](frame_00050_jpg.rf.3e2083bb0cedbf20d8e9e3cd5ce37617_blend.png)
 
 
