@@ -46,13 +46,21 @@ def align_and_save(rgb_image, ir_image, save_path, overlay_path=None):
 
     bspline_transform = sitk.BSplineTransformInitializer(
         image1=rgb_gray, transformDomainMeshSize=[6, 6], order=3)
+    mesh_size = [6, 6]
+    order = 3
+    grid_size = [s + order for s in mesh_size]  # [9, 9]
 
     params = np.array(bspline_transform.GetParameters())
     for idx in range(0, len(params), 2):
-        x_idx = idx
-        y_idx = idx + 1
-        if 10 < x_idx < 50 and 20 < y_idx < 60:
-            params[x_idx] -= 0.8
+        cp_index = idx // 2
+        row = cp_index // grid_size[1]
+        col = cp_index % grid_size[1]
+
+        # Spatially meaningful region (e.g., elbow area)
+        if 3 <= row <= 5 and 2 <= col <= 4:
+            params[idx] -= 0.8  # X shift
+            params[idx + 1] += 0.5  # Y shift
+
     bspline_transform.SetParameters(tuple(params))
 
     ir_shifted = sitk.Resample(ir_global_aligned, rgb_gray, bspline_transform,
@@ -96,8 +104,8 @@ def align_and_save(rgb_image, ir_image, save_path, overlay_path=None):
 # === Batch Processing ===
 rgb_folder = r"C:\Users\mrmon\Downloads\Four_channel\RGB_images\train\images"
 ir_folder = r"C:\Users\mrmon\Downloads\Four_channel\IR_images\train\images"
-output_folder = r"C:\Users\mrmon\Downloads\Four_channel\Aligned_Output"
-overlay_folder = r"C:\Users\mrmon\Downloads\Four_channel\overlays"
+output_folder = r"C:\Users\mrmon\Downloads\Four_channel\Aligned_Output_new"
+overlay_folder = r"C:\Users\mrmon\Downloads\Four_channel\overlays_new"
 
 os.makedirs(output_folder, exist_ok=True)
 os.makedirs(overlay_folder, exist_ok=True)
